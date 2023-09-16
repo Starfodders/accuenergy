@@ -8,6 +8,7 @@
 <script>
 import { ref } from 'vue'
 export default {
+    name: 'SearchBar',
     setup() {
 
         const searchValue = ref('')

@@ -1,39 +1,44 @@
 <template>
-<div class = 'location-container'>
-  <button @click = "findLocation">Find Location</button>
+  <div class="location-container">
+    <button @click="findLocation">Find Location</button>
   </div>
+  {{localLat}}
+  {{localLong}}
+
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref } from "vue";
 export default {
+  name: "LocationButton",
   setup() {
-
-    let localLat = ref(null)
-    let localLong = ref(null)
+    let localLat = ref(null);
+    let localLong = ref(null);
 
     const findLocation = () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-          localLat.value = position.coords.latitude;
-          localLong.value = position.coords.longitude;
-      })
+      if (window.navigator && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            localLat.value = position.coords.latitude;
+            localLong.value = position.coords.longitude;
+            
+          },
+          (error) => {
+            console.error("Geolocation error, ", error);
+          }
+        );
+      } else {
+        console.error("Browser does not support Geolocation");
       }
-      else {
-        console.log('error');
-      }
-    }
+    };
 
     return {
       findLocation,
       localLat,
-      localLong
-    }
-
-
-  }
-
-}
+      localLong,
+    };
+  },
+};
 </script>
 
 <style scoped>
