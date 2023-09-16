@@ -2,8 +2,6 @@
   <div class="location-container">
     <button @click="findLocation">Find Location</button>
   </div>
-  <!-- {{localLat}}
-  {{localLong}} -->
 
 </template>
 

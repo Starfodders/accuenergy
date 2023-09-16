@@ -15,17 +15,41 @@ export default {
 
   data() {
     return {
-      autocomplete: null
+      autocomplete: null,
     };
+  },
+
+  methods: {
+    handlePlaceChanged() {
+      const place = this.autocomplete.getPlace();
+
+      if (place) {
+        this.$emit('updateCoords', {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
+        })
+        // console.log(place);
+        // console.log(place.geometry);
+        // console.log(place.geometry.location.lat(), 'lat');
+        // console.log(place.geometry.location.lng(), 'lng');
+
+      }
+    }
   },
 
   mounted() {
     //eslint-disable-next-line
-    this.autocomplete = new google.maps.places.Autocomplete(this.$refs.searchRef, {
-      fields: ["place_id", "geometry", "name", "address"]
-    });
-  }
+    this.autocomplete = new google.maps.places.Autocomplete(
+      this.$refs.searchRef,
+      {
+        fields: ["place_id", "geometry", "name"],
+      }
+    );
+        this.autocomplete.addListener('place_changed', this.handlePlaceChanged);
+  },
 };
+
+//place.geometry.location.lat() + lng()
 </script>
 
 <style>
@@ -33,3 +57,5 @@ export default {
   padding-bottom: 2rem;
 }
 </style>
+
+

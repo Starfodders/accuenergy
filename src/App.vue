@@ -1,8 +1,8 @@
 <template>
   <h1>Accuenergy Canada</h1>
-  <LocationButton @updateLocalCoords = "handleLocalCoords"/>
-  <SearchBar />
-  <GoogleMap :adjustLocal = "adjustLocal"/>
+  <LocationButton @updateLocalCoords = "handleCoordChange"/>
+  <SearchBar @updateCoords = "handleCoordChange"/>
+  <GoogleMap :adjustCoords = "adjustCoords"/>
 </template>
 
 <script>
@@ -17,14 +17,14 @@ export default {
   setup() {
 
     //handles user update to local coords and updates map location
-    const adjustLocal = ref({})
-    const handleLocalCoords = (coords) => {
-      adjustLocal.value = coords
+    const adjustCoords = ref({})
+    const handleCoordChange = (coords) => {
+      adjustCoords.value = coords
     }
 
   return {
-    handleLocalCoords,
-    adjustLocal
+    handleCoordChange,
+    adjustCoords
   }
 
   },

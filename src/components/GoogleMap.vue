@@ -10,14 +10,14 @@ import { GoogleMap, Marker } from "vue3-google-map";
 
 export default defineComponent({
   components: { GoogleMap, Marker },
-  props: ['adjustLocal'],
+  props: ['adjustCoords'],
   setup(props) {
 
     //default map settings to Toronto
     const center = ref({lat: 43.6532, lng: -79.3832})
     const zoom = ref(10)
 
-     watch(() => props.adjustLocal, (newCoords) => {
+     watch(() => props.adjustCoords, (newCoords) => {
       center.value = newCoords;
       zoom.value = 15;
     });
