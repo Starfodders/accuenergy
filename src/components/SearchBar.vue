@@ -1,14 +1,3 @@
-<template>
-  <div class="search-container">
-    <input
-      id="autocomplete"
-      placeholder="Enter a place"
-      type="text"
-      ref="searchRef"
-    />
-  </div>
-</template>
-
 <script>
 export default {
   name: "SearchBar",
@@ -24,17 +13,19 @@ export default {
       const place = this.autocomplete.getPlace();
 
       if (place) {
-        this.$emit('updateCoords', {
+        this.$emit("updateCoords", {
+          id: place.place_id,
           lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng()
-        })
+          lng: place.geometry.location.lng(),
+          name: place.formatted_address,
+        });
+        // console.log(place.formatted_address);
         // console.log(place);
         // console.log(place.geometry);
         // console.log(place.geometry.location.lat(), 'lat');
         // console.log(place.geometry.location.lng(), 'lng');
-
       }
-    }
+    },
   },
 
   mounted() {
@@ -42,15 +33,24 @@ export default {
     this.autocomplete = new google.maps.places.Autocomplete(
       this.$refs.searchRef,
       {
-        fields: ["place_id", "geometry", "name"],
+        fields: ["place_id", "geometry", "name", "formatted_address"],
       }
     );
-        this.autocomplete.addListener('place_changed', this.handlePlaceChanged);
+    this.autocomplete.addListener("place_changed", this.handlePlaceChanged);
   },
 };
-
-//place.geometry.location.lat() + lng()
 </script>
+
+<template>
+  <div class="search-container">
+    <input
+      id="autocomplete"
+      placeholder="Enter a place"
+      type="text"
+      ref="searchRef"
+    />
+  </div>
+</template>
 
 <style>
 .search-container {
