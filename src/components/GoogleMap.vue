@@ -1,19 +1,29 @@
 <template>
-  <GoogleMap api-key="AIzaSyBFtORqA2gsFq4u2QP8Jgwz1AMcez4byBw" style="width: 100%; height: 500px" :center="center" :zoom="15">
+  <GoogleMap api-key="AIzaSyBFtORqA2gsFq4u2QP8Jgwz1AMcez4byBw" style="width: 50%; height: 500px" :center="center" :zoom="zoom">
     <Marker :options="{ position: center }" />
   </GoogleMap>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, watch, ref } from "vue";
 import { GoogleMap, Marker } from "vue3-google-map";
 
 export default defineComponent({
   components: { GoogleMap, Marker },
-  setup() {
-    const center = { lat: 40.689247, lng: -74.044502 };
+  props: ['adjustLocal'],
+  setup(props) {
 
-    return { center };
+    //default map settings to Toronto
+    const center = ref({lat: 43.6532, lng: -79.3832})
+    const zoom = ref(10)
+
+     watch(() => props.adjustLocal, (newCoords) => {
+      center.value = newCoords;
+      zoom.value = 15;
+    });
+
+
+    return { center, zoom };
   },
 });
 </script>

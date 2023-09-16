@@ -1,11 +1,12 @@
 <template>
   <h1>Accuenergy Canada</h1>
-  <LocationButton />
+  <LocationButton @updateLocalCoords = "handleLocalCoords"/>
   <SearchBar />
-  <GoogleMap />
+  <GoogleMap :adjustLocal = "adjustLocal"/>
 </template>
 
 <script>
+import {ref} from "vue";
 import LocationButton from "./components/LocationButton.vue";
 import SearchBar from "./components/SearchBar.vue";
 import GoogleMap from "./components/GoogleMap.vue";
@@ -14,6 +15,18 @@ export default {
   name: "App",
   components: { LocationButton, SearchBar, GoogleMap },
   setup() {
+
+    //handles user update to local coords and updates map location
+    const adjustLocal = ref({})
+    const handleLocalCoords = (coords) => {
+      adjustLocal.value = coords
+    }
+
+  return {
+    handleLocalCoords,
+    adjustLocal
+  }
+
   },
 };
 </script>

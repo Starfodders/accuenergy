@@ -2,8 +2,8 @@
   <div class="location-container">
     <button @click="findLocation">Find Location</button>
   </div>
-  {{localLat}}
-  {{localLong}}
+  <!-- {{localLat}}
+  {{localLong}} -->
 
 </template>
 
@@ -11,7 +11,7 @@
 import { ref } from "vue";
 export default {
   name: "LocationButton",
-  setup() {
+  setup(_, {emit}) {
     let localLat = ref(null);
     let localLong = ref(null);
 
@@ -21,6 +21,12 @@ export default {
           (position) => {
             localLat.value = position.coords.latitude;
             localLong.value = position.coords.longitude;
+
+            //after receiving coords, emit this event and send to embedded maps
+            emit('updateLocalCoords', {
+              lat: localLat,
+              lng: localLong
+            })
             
           },
           (error) => {
