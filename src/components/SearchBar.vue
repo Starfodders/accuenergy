@@ -1,28 +1,35 @@
 <template>
-    <div class="search-container">
-        <input type="text" v-model="searchValue">
-    </div>
-    <p>{{searchValue}}</p>
+  <div class="search-container">
+    <input
+      id="autocomplete"
+      placeholder="Enter a place"
+      type="text"
+      ref="searchRef"
+    />
+  </div>
 </template>
 
 <script>
-import { ref } from 'vue'
 export default {
-    name: 'SearchBar',
-    setup() {
+  name: "SearchBar",
 
-        const searchValue = ref('')
+  data() {
+    return {
+      autocomplete: null
+    };
+  },
 
-
-
-        return {
-            searchValue
-        }
-    }
-
-}
+  mounted() {
+    //eslint-disable-next-line
+    this.autocomplete = new google.maps.places.Autocomplete(this.$refs.searchRef, {
+      fields: ["place_id", "geometry", "name", "address"]
+    });
+  }
+};
 </script>
 
 <style>
-
+.search-container {
+  padding-bottom: 2rem;
+}
 </style>
