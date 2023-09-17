@@ -24,7 +24,8 @@ export default {
 </script>
 
 <template>
-  <h1>Accuenergy Canada Demo</h1>
+  <h1 class = "title">Accuenergy Canada Demo</h1>
+  <p>Submitted by Michael Deng</p>
   <main class="main-container">
     <GoogleMap :adjustCoords="adjustCoords" />
     <LocationList :updateList="adjustCoords" @switchLocations = "handleCoordChange"/>
@@ -44,6 +45,9 @@ export default {
   align-items: center;
   flex-direction: column;
   font-family: 'Roboto', sans-serif;
+}
+.title {
+  margin-bottom: 0;
 }
 .main-container {
   width: 100%;

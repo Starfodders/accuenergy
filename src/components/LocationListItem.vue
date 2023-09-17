@@ -42,7 +42,7 @@ export default {
 </script>
 
 <template>
-  <section class="item" ref="id">
+  <section :class="!isChecked ? 'item'  : 'item-flagged'" ref="id">
     <div class="item-checkbox">
       <input type="checkbox" @click="toggleDelete" v-model="isChecked" />
     </div>
@@ -58,6 +58,12 @@ export default {
   width: 100%;
   background-color: rgb(248, 248, 248);
   border-bottom: 1px solid black;
+}
+.item-flagged {
+  display: flex;
+  width: 100%;
+  background-color: rgb(255, 219, 219);
+  border-bottom: 1px solid black; 
 }
 .item:hover {
     background-color: rgb(213, 213, 213);

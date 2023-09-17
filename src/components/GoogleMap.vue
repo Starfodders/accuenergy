@@ -9,16 +9,18 @@ export default defineComponent({
     //default map settings of Toronto
     const center = ref({ lat: 43.6532, lng: -79.3832 });
     const zoom = ref(10);
+    const markerArray = ref([])
 
     watch(
       () => props.adjustCoords,
       (newCoords) => {
         center.value = newCoords;
         zoom.value = 15;
+        markerArray.value.push(newCoords)
       }
     );
 
-    return { center, zoom };
+    return { center, zoom, markerArray };
   },
 });
 </script>
@@ -31,7 +33,11 @@ export default defineComponent({
     :zoom="zoom"
     class = "map"
   >
-    <Marker :options="{ position: center }" />
+    <Marker
+      v-for="marker in markerArray"
+      :key="`${marker.lat}-${marker.lng}`"
+      :options="{ position: marker }"
+    />
   </GoogleMap>
 </template>
 

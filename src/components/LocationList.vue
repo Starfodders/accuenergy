@@ -22,9 +22,12 @@ export default {
       }
     );
 
+    //adds if checked
     const handleAdd = (id) => {
       deleteArray.value.push(id);
     };
+
+    //removed if unchecked
     const handleRemove = (id) => {
       const index = deleteArray.value.indexOf(id);
       if (index !== -1) {
@@ -32,6 +35,7 @@ export default {
       }
     };
 
+    //deletes selected entries
     const deleteSelected = () => {
       locationsArray.value = locationsArray.value.filter(
         (location) => !deleteArray.value.includes(location.id)
