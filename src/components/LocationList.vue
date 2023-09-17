@@ -14,10 +14,9 @@ export default {
       () => props.updateList,
       (newValue) => {
         //first check if it exists to prevent duplication when switching
-        if (
-          !locationsArray.value.some((location) => location.id === newValue.id)
-        ) {
+        if (!locationsArray.value.some((location) => location.id === newValue.id)) {
           locationsArray.value.push(newValue);
+          emit('retrieveList', locationsArray);
         }
       }
     );
@@ -41,6 +40,7 @@ export default {
         (location) => !deleteArray.value.includes(location.id)
       );
       deleteArray.value = [];
+      emit('retrieveList', locationsArray)
     };
 
     const handleSwitch = (details) => {

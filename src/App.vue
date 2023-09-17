@@ -15,9 +15,16 @@ export default {
       adjustCoords.value = coords;
     };
 
+    const currentList = ref([])
+    const forwardList = (data) => {
+      currentList.value = data
+    }
+
     return {
       handleCoordChange,
       adjustCoords,
+      forwardList,
+      currentList
     };
   },
 };
@@ -27,8 +34,8 @@ export default {
   <h1 class = "title">Accuenergy Canada Demo</h1>
   <p>Submitted by Michael Deng</p>
   <main class="main-container">
-    <GoogleMap :adjustCoords="adjustCoords" />
-    <LocationList :updateList="adjustCoords" @switchLocations = "handleCoordChange"/>
+    <GoogleMap :adjustCoords="adjustCoords" :currentList = "currentList"/>
+    <LocationList :updateList="adjustCoords" @switchLocations = "handleCoordChange" @retrieveList = "forwardList"/>
   </main>
   <div class = "main-bottom">
   <LocationButton @updateLocalCoords="handleCoordChange" />

@@ -4,7 +4,7 @@ import { GoogleMap, Marker } from "vue3-google-map";
 
 export default defineComponent({
   components: { GoogleMap, Marker },
-  props: ["adjustCoords"],
+  props: ["adjustCoords", "currentList"],
   setup(props) {
     //default map settings of Toronto
     const center = ref({ lat: 43.6532, lng: -79.3832 });
@@ -16,9 +16,12 @@ export default defineComponent({
       (newCoords) => {
         center.value = newCoords;
         zoom.value = 15;
-        markerArray.value.push(newCoords)
       }
     );
+
+    watch( () => props.currentList, (newItem) => {
+      markerArray.value = [...newItem.value]
+    }, {deep: true})
 
     return { center, zoom, markerArray };
   },
