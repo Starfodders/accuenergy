@@ -20,7 +20,7 @@ export default {
           props.location.tz.rawOffset +
           props.location.tz.dstOffset;
         const formattedDate = new Date(localTimestamp * 1000);
-        localTime.value = formattedDate.toLocaleTimeString();
+        localTime.value = (props.location.local || formattedDate.toLocaleTimeString());
       }
     );
 

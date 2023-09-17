@@ -12,6 +12,7 @@ export default {
   setup(_, {emit}) {
     let localLat = ref(null);
     let localLong = ref(null);
+    let localTime = ref(null);
 
     const findLocation = () => {
       if (window.navigator && navigator.geolocation) {
@@ -19,12 +20,15 @@ export default {
           (position) => {
             localLat.value = position.coords.latitude;
             localLong.value = position.coords.longitude;
+            localTime.value = new Date(position.timestamp)
 
             //after receiving coords, emit this event and send to embedded maps
             emit('updateLocalCoords', {
               lat: localLat,
               lng: localLong,
-              name: 'Your Location'
+              name: 'Your Location',
+              tz: {timeZoneName: null, timeZoneID: null},
+              local: localTime
             })
             
           },
