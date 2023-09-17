@@ -5,43 +5,71 @@ export default {
   data() {
     return {
       autocomplete: null,
+      timezoneInfo: {},
     };
   },
 
   methods: {
     handlePlaceChanged() {
       const place = this.autocomplete.getPlace();
-
-      if (place) {
-        this.$emit("updateCoords", {
-          id: place.place_id,
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-          name: place.formatted_address,
-        });
+      if (!place.place_id) {
+        console.error("Invalid search query");
+      } else {
+        //calls the timeZone API
+        const timestamp = Math.round(new Date().getTime() / 1000);
+        fetch(
+          `https://maps.googleapis.com/maps/api/timezone/json?location=${place.geometry.location.lat()},${place.geometry.location.lng()}&timestamp=${timestamp}&key=AIzaSyBFtORqA2gsFq4u2QP8Jgwz1AMcez4byBw`
+        )
+          .then((res) => {
+            if (!res.ok) {
+              throw new Error("Network response was not ok");
+            }
+            return res.json();
+          })
+          .then((data) => {
+            if (data.status === "OK") {
+              //emits all the relevant information + timezone up to App
+              this.$emit("updateCoords", {
+                id: place.place_id,
+                lat: place.geometry.location.lat(),
+                lng: place.geometry.location.lng(),
+                name: place.formatted_address,
+                tz: data,
+              });
+            } else {
+              console.error("Error retrieving timezone data", data.status);
+            }
+          })
+          .catch((err) => {
+            console.error("Error:", err);
+          });
       }
     },
     clearField() {
-      this.$refs.searchRef.value = ''
+      this.$refs.searchRef.value = "";
     },
     selectFirst(e) {
-      const dropdown = document.querySelector('.pac-container');
+      const dropdown = document.querySelector(".pac-container");
       //handles lack of dropdown option
       if (!dropdown) {
-        return
+        return;
       }
+
       //this addresses if user already has the first suggestion picked, won't erroneously pick the second
-      const firstSuggestion = document.querySelector('.pac-item');
-      if (!firstSuggestion || firstSuggestion.classList.contains('pac-item-selected')) {
-      return;
+      const firstSuggestion = document.querySelector(".pac-item");
+      if (
+        !firstSuggestion ||
+        firstSuggestion.classList.contains("pac-item-selected")
+      ) {
+        return;
       }
       const downPress = new KeyboardEvent("keydown", {
         keyCode: 40,
-        which: 40
+        which: 40,
       });
       e.target.dispatchEvent(downPress);
-      this.$refs.searchRef.value = ''
-    }
+      this.$refs.searchRef.value = "";
+    },
   },
 
   mounted() {
@@ -64,8 +92,8 @@ export default {
       placeholder="Enter a place"
       type="text"
       ref="searchRef"
-      @click = "clearField"
-      @keydown.enter = "selectFirst"
+      @click="clearField"
+      @keydown.enter="selectFirst"
     />
   </div>
 </template>

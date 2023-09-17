@@ -12,7 +12,7 @@ export default {
     const deleteArray = ref([]);
     //code to handle table display and pagination
     const currentPage = ref(1);
-    const itemsPerPage = 3;
+    const itemsPerPage = 10;
 
     const totalPages = computed(() => {
       return Math.max(1, Math.ceil(locationsArray.value.length / itemsPerPage));
@@ -120,11 +120,11 @@ export default {
     </div>
     </div>
     <div class="list-pagination">
-      <button @click="handlePrevListPage" :disabled = "currentPage <= 1">
+      <button @click="handlePrevListPage" :class = "currentPage <= 1 ? 'pag-btn-disabled': 'pag-btn'">
         <span class="material-symbols-outlined"> arrow_back </span>Prev
       </button>
       <span>Page {{ currentPage }} of {{ totalPages }}</span>
-      <button @click="handleNextListPage" :disabled="currentPage >= totalPages">
+      <button @click="handleNextListPage" :class = "currentPage >= totalPages ? 'pag-btn-disabled' :'pag-btn'">
         <span class="material-symbols-outlined"> arrow_forward </span>Next
       </button>
     </div>
@@ -177,5 +177,32 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-top: 0.3rem;
+}
+.pag-btn {
+  color: white;
+  background-color: rgb(105, 189, 223);
+  padding: 0.5rem 0.8rem 0.5rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+}
+.pag-btn:hover {
+    cursor: pointer;
+}
+.pag-btn-disabled {
+     color: white;
+  background-color: rgb(105, 189, 223);
+  padding: 0.5rem 0.8rem 0.5rem 0.5rem;
+  border: none;
+  border-radius: 4px;
+  opacity: 0.5;
+  pointer-events: none; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
 }
 </style>
