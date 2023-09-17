@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 
 export default {
   props: ["details", "deleteArray"],
-  setup(props, {emit}) {
+  setup(props, { emit }) {
     const id = ref(null);
     const address = ref(null);
     const isChecked = ref(false);
@@ -22,9 +22,12 @@ export default {
         const index = props.deleteArray.indexOf(props.details.id);
         if (index !== -1) {
           emit("removeFromArray", props.details.id);
-
         }
       }
+    };
+
+    const handleSwitch = () => {
+      emit("switchLocations", props.details);
     };
 
     return {
@@ -32,6 +35,7 @@ export default {
       id,
       toggleDelete,
       isChecked,
+      handleSwitch,
     };
   },
 };
@@ -42,7 +46,7 @@ export default {
     <div class="item-checkbox">
       <input type="checkbox" @click="toggleDelete" v-model="isChecked" />
     </div>
-    <div class="item-address">
+    <div class="item-address" @click="handleSwitch">
       <span>{{ address }}</span>
     </div>
   </section>
@@ -52,15 +56,25 @@ export default {
 .item {
   display: flex;
   width: 100%;
-  background-color: rgb(219, 219, 219);
+  background-color: rgb(248, 248, 248);
+  border-bottom: 1px solid black;
+}
+.item:hover {
+    background-color: rgb(213, 213, 213);
+    cursor: pointer;
+    transition: all 0.3;
 }
 .item-checkbox {
-  padding: 1em 1em 1em 0.5em;
+  padding: 1em 0.2em;
+  width: 10%;
   border-right: 1px solid black;
+  display: flex;
+  justify-content: center;
 }
 .item-address {
   padding: 0 1em;
   display: flex;
+  width: 90%;
   align-items: center;
 }
 </style>

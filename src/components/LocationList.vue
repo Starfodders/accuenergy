@@ -5,15 +5,20 @@ import LocationListItem from "./LocationListItem.vue";
 export default {
   props: ["updateList"],
   components: { LocationListItem },
-  setup(props) {
+  setup(props, { emit }) {
     //when there is a new location, push into locations array which then updates the LocationListItem
     const locationsArray = ref([]);
     const deleteArray = ref([]);
 
     watch(
       () => props.updateList,
-      () => {
-        locationsArray.value.push(props.updateList);
+      (newValue) => {
+        //first check if it exists to prevent duplication when switching
+        if (
+          !locationsArray.value.some((location) => location.id === newValue.id)
+        ) {
+          locationsArray.value.push(newValue);
+        }
       }
     );
 
@@ -34,12 +39,17 @@ export default {
       deleteArray.value = [];
     };
 
+    const handleSwitch = (details) => {
+      emit("switchLocations", details);
+    };
+
     return {
       locationsArray,
       deleteArray,
       handleAdd,
       handleRemove,
       deleteSelected,
+      handleSwitch,
     };
   },
 };
@@ -48,7 +58,7 @@ export default {
 <template>
   <div class="list-container">
     <div class="list-container-top">
-      <button @click="deleteSelected">Remove Selected</button>
+      <button @click="deleteSelected" :class="deleteArray.length > 0 ? 'delete-button' : 'delete-button-disabled'">Remove Selected</button>
     </div>
     <div class="list-container-main">
       <LocationListItem
@@ -58,6 +68,7 @@ export default {
         :deleteArray="deleteArray"
         @addToArray="handleAdd"
         @removeFromArray="handleRemove"
+        @switchLocations="handleSwitch"
       />
     </div>
   </div>
@@ -73,11 +84,29 @@ export default {
 }
 .list-container-top {
   width: 100%;
-  background-color: red;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 1rem;
 }
 .list-container-main {
   width: 100%;
   display: flex;
   flex-direction: column;
+}
+.delete-button {
+  color: white;
+  background-color: rgb(105, 189, 223);
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+}
+.delete-button-disabled {
+color: white;
+  background-color: rgb(105, 189, 223);
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  opacity: 0.5;
+    pointer-events: none;
 }
 </style>

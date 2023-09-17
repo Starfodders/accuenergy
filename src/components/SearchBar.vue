@@ -19,13 +19,11 @@ export default {
           lng: place.geometry.location.lng(),
           name: place.formatted_address,
         });
-        // console.log(place.formatted_address);
-        // console.log(place);
-        // console.log(place.geometry);
-        // console.log(place.geometry.location.lat(), 'lat');
-        // console.log(place.geometry.location.lng(), 'lng');
       }
     },
+    clearField() {
+      this.$refs.searchRef.value = ''
+    }
   },
 
   mounted() {
@@ -48,13 +46,20 @@ export default {
       placeholder="Enter a place"
       type="text"
       ref="searchRef"
+      @click = "clearField"
     />
   </div>
 </template>
 
 <style>
-.search-container {
-  padding-bottom: 2rem;
+/* .search-container {
+} */
+#autocomplete {
+  min-width: 20rem;
+  padding: 0.4rem 0.5rem;
+  border: 2px solid rgb(105, 189, 223);
+  color: rgb(62, 62, 62);
+  border-radius: 4px;
 }
 </style>
 

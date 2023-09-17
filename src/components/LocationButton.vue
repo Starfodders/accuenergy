@@ -1,6 +1,6 @@
 <template>
   <div class="location-container">
-    <button @click="findLocation">Find Location</button>
+    <button @click="findLocation" class = "location-button">Find Your Location</button>
   </div>
 
 </template>
@@ -23,7 +23,8 @@ export default {
             //after receiving coords, emit this event and send to embedded maps
             emit('updateLocalCoords', {
               lat: localLat,
-              lng: localLong
+              lng: localLong,
+              name: 'Your Location'
             })
             
           },
@@ -45,10 +46,18 @@ export default {
 };
 </script>
 
-<style scoped>
-.location-container {
-  width: 15rem;
-  display: flex;
-  justify-content: center;
+<style>
+.location-button {
+  color: white;
+  background-color: rgb(105, 189, 223);
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
 }
+.location-button:hover {
+  cursor: pointer;
+  background-color: rgb(67, 136, 163);
+  transition: all 0.3s;
+}
+
 </style>

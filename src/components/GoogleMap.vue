@@ -26,9 +26,10 @@ export default defineComponent({
 <template>
   <GoogleMap
     api-key="AIzaSyBFtORqA2gsFq4u2QP8Jgwz1AMcez4byBw"
-    style="width: 70%; height: 700px"
+    style="width: 70%; height: 700px; border-radius: 4px;"
     :center="center"
     :zoom="zoom"
+    class = "map"
   >
     <Marker :options="{ position: center }" />
   </GoogleMap>
