@@ -23,6 +23,24 @@ export default {
     },
     clearField() {
       this.$refs.searchRef.value = ''
+    },
+    selectFirst(e) {
+      const dropdown = document.querySelector('.pac-container');
+      //handles lack of dropdown option
+      if (!dropdown) {
+        return
+      }
+      //this addresses if user already has the first suggestion picked, won't erroneously pick the second
+      const firstSuggestion = document.querySelector('.pac-item');
+      if (!firstSuggestion || firstSuggestion.classList.contains('pac-item-selected')) {
+      return;
+      }
+      const downPress = new KeyboardEvent("keydown", {
+        keyCode: 40,
+        which: 40
+      });
+      e.target.dispatchEvent(downPress);
+      this.$refs.searchRef.value = ''
     }
   },
 
@@ -47,6 +65,7 @@ export default {
       type="text"
       ref="searchRef"
       @click = "clearField"
+      @keydown.enter = "selectFirst"
     />
   </div>
 </template>

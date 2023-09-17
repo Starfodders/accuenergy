@@ -90,12 +90,17 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-bottom: 1rem;
+  align-items: center;
+  padding: 0.5rem 0;
+  background-color: rgb(243, 243, 243);
 }
 .list-container-main {
   width: 100%;
   display: flex;
   flex-direction: column;
+  border: 1px solid black;
+  border-bottom: none;
+  border-radius: 4px;
 }
 .delete-button {
   color: white;
