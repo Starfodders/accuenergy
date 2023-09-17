@@ -10,6 +10,7 @@ export default defineComponent({
     const center = ref({ lat: 43.6532, lng: -79.3832 });
     const zoom = ref(10);
     const markerArray = ref([])
+    const API_KEY = process.env.VUE_APP_API_KEY
 
     watch(
       () => props.adjustCoords,
@@ -23,14 +24,14 @@ export default defineComponent({
       markerArray.value = [...newItem.value]
     }, {deep: true})
 
-    return { center, zoom, markerArray };
+    return { center, zoom, markerArray, API_KEY };
   },
 });
 </script>
 
 <template>
   <GoogleMap
-    api-key="AIzaSyBFtORqA2gsFq4u2QP8Jgwz1AMcez4byBw"
+    api-key= API_KEY
     style="width: 70%; height: 700px; border-radius: 4px;"
     :center="center"
     :zoom="zoom"

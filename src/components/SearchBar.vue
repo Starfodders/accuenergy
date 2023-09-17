@@ -6,6 +6,7 @@ export default {
     return {
       autocomplete: null,
       timezoneInfo: {},
+      API_KEY: process.env.VUE_APP_API_KEY
     };
   },
 
@@ -18,7 +19,7 @@ export default {
         //calls the timeZone API
         const timestamp = Math.round(new Date().getTime() / 1000);
         fetch(
-          `https://maps.googleapis.com/maps/api/timezone/json?location=${place.geometry.location.lat()},${place.geometry.location.lng()}&timestamp=${timestamp}&key=AIzaSyBFtORqA2gsFq4u2QP8Jgwz1AMcez4byBw`
+          `https://maps.googleapis.com/maps/api/timezone/json?location=${place.geometry.location.lat()},${place.geometry.location.lng()}&timestamp=${timestamp}&key=${this.API_KEY}`
         )
           .then((res) => {
             if (!res.ok) {

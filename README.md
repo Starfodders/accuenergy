@@ -10,6 +10,3 @@
 ### Notes
 - Likely using Google API and Google Places API for the search and display feature
 - Likely using a Vue table library to handle returned search results, pagination
-
-<!-- Google Map API Key -->
-<!-- AIzaSyBFtORqA2gsFq4u2QP8Jgwz1AMcez4byBw -->
